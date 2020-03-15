@@ -200,6 +200,7 @@ def vote_book_up(cursor, selected_book_id):
     cursor.execute(f"""
     UPDATE book
     SET votes_up = votes_up + 1
+    WHERE book_id={selected_book_id}
     """)
 
 @database_common.connection_handler
@@ -207,4 +208,22 @@ def vote_book_down(cursor, selected_book_id):
     cursor.execute(f"""
     UPDATE book
     SET votes_down = votes_down + 1
+    WHERE book_id={selected_book_id}
     """)
+
+@database_common.connection_handler
+def register_vote_for_member(cursor, username_session, book_id, index):
+    cursor.execute(f"""
+    UPDATE member
+    SET voted_books[{index}]={book_id}
+    WHERE username='{username_session}'
+    """)
+
+@database_common.connection_handler
+def get_voted_books_for_member(cursor, username_session):
+    cursor.execute(f"""
+    SELECT voted_books from member
+    WHERE username='{username_session}'
+    """)
+    all_voted_books = cursor.fetchone()
+    return all_voted_books

@@ -69,6 +69,7 @@ def get_book_info(book_id: int):
     selected_book = con.get_all_info_for_selected_book(book_id)
     positive_reviews = utl.calculate_vote_percentage(selected_book['votes_up'], selected_book['votes_down'])
     if 'username' in session:
+        print(session['username'])
         member_to_login = con.check_registered_user(session['username'])
         member_page = True
         member_full_name = con.get_user_full_name(session['username'])
@@ -209,14 +210,32 @@ def write_review(book_id):
 @app.route('/books/<book_id>/vote-up')
 def vote_book_up(book_id):
     
-    con.vote_book_up(book_id)
+    username = session['username']
+    all_votes = con.get_voted_books_for_member(username)['voted_books']
+    if all_votes is None:
+        next_all_votes_index = 0
+        con.register_vote_for_member(username, book_id, next_all_votes_index)
+        con.vote_book_up(book_id)
+    elif int(book_id) not in all_votes:
+        next_all_votes_index = len(all_votes)
+        con.register_vote_for_member(username, book_id, next_all_votes_index)
+        con.vote_book_up(book_id)
     return redirect(f'/books/{book_id}/info')
 
 
 @app.route('/books/<book_id>/vote-down')
 def vote_book_down(book_id):
     
-    con.vote_book_down(book_id)
+    username = session['username']
+    all_votes = con.get_voted_books_for_member(username)['voted_books']
+    if all_votes is None:
+        next_all_votes_index = 0
+        con.register_vote_for_member(username, book_id, next_all_votes_index)
+        con.vote_book_down(book_id)
+    elif int(book_id) not in all_votes:
+        next_all_votes_index = len(all_votes)
+        con.register_vote_for_member(username, book_id, next_all_votes_index)
+        con.vote_book_down(book_id)
 
     return redirect(f'/books/{book_id}/info')
 
