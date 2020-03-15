@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="registration-form">
+  <form method="post">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required />
+    <br />
+    <br />
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required />
+    <br />
+    <br />
+    <button type="submit" class="btn btn-primary register-button">
+      Log In
+    </button>
+    <br />
+    <br />
+    {% if is_member == False %}
+
+    <p class="wrong-username">Wrong username or password!</p>
+    {% endif %}
+  </form>
+</div>
+{% endblock%}

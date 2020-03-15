@@ -1,0 +1,351 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 0.95em;
+  line-height: 1.6em;
+}
+
+table,
+td,
+th {
+  border: 1px solid #333;
+  margin: 0 auto;
+  margin-top: 4em;
+  font-weight: 600;
+}
+
+td,
+th {
+  padding: 10px;
+}
+
+td {
+  background-color: #f3f2ee;
+}
+
+th {
+  background-color: #4993c2;
+  padding: 20px;
+}
+
+table {
+  border: 4px solid #4993c2;
+}
+
+.container-fluid {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.books-container {
+  margin: 0 auto;
+  padding: 2em;
+  width: 70%;
+}
+
+.books-page-header {
+  color: #4993c2;
+}
+
+.books-headings {
+  background-color: #4993c2;
+  color: white;
+}
+
+.site-title-container {
+  background-color: #4993c2;
+  padding: 10px;
+  line-height: 1.2em;
+}
+
+.site-title-container:hover {
+  background-color: #d43c3d;
+  cursor: pointer;
+}
+
+.site-title {
+  font-size: 1.1em;
+  text-transform: uppercase;
+  color: white;
+}
+
+.site-title:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.site-title-span {
+  display: block;
+}
+
+.home-links {
+}
+
+.users-area {
+  padding: 30px;
+  width: 12em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.users-area a {
+  color: #4993c2;
+}
+
+.search-input {
+  width: 20em !important;
+}
+
+.search-button {
+  color: #799c24;
+  border-color: #799c24;
+}
+
+.search-button:hover {
+  background-color: #799c24;
+  border-color: #799c24;
+}
+
+.navbar {
+  height: 6em;
+  background-color: #f3f2ee !important;
+}
+
+.active a {
+  color: white;
+  font-size: 1.2em;
+}
+
+.available-books {
+  border: 1px solid #8d9096;
+  color: #282828;
+  display: inline-block;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 0.8em;
+}
+
+
+.book-title {
+  color: #265573;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.book-title:hover {
+  color: #d43c3d;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.registration-form {
+  width: 400px;
+  margin: 4em auto;
+  border: 3px solid dodgerblue;
+  padding: 50px;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+  text-align: left;
+}
+
+.register-button {
+  min-width: 100%;
+}
+
+.wrong-username {
+  color: #d43c3d;
+}
+
+.welcome-member {
+  float: left;
+  margin: 0;
+}
+
+
+.unavailable-book{
+     background-color: #ddd;
+     cursor: not-allowed;
+     text-transform: uppercase;
+}
+
+.unavailable-book{
+     color: #d43c3d;
+}
+
+.already-rented{
+     background-color: #ddd;
+     cursor: not-allowed;
+     text-transform: lowercase;
+}
+
+.already-rented-link {
+  color: grey;
+}
+
+.rent-book, .return-book {
+  text-transform: lowercase;
+  color: #265573;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rent-book:hover, .return-book:hover {
+  color: #265573;
+  text-decoration: none;
+}
+
+
+.my-books-link {
+  color: #4993c2;
+}
+
+.book-info-container{
+  margin-top: 2em;
+  padding: 2em;
+  text-align: left;
+  display: flex;
+}
+
+.book-covers {
+  width: 330px;
+  height: 500px;
+  border: 2px solid #282828;
+}
+
+.book-info-left, .book-info-right {
+  padding: 20px;
+  flex: 1 1 1;
+}
+
+.book-info-left {
+  flex: 1;
+}
+
+.book-info-right {
+  flex: 3.5;
+  padding-right: 4em;
+}
+
+
+
+.book-info-title {
+  display: inline-block;
+  margin-right: 0.5em;
+}
+
+.book-info-published-date {
+  color: #555;
+  font-size: 1.15em;
+}
+
+.book-info-author-link {
+  color: #4993c2;
+}
+
+.book-info-author-link:hover {
+  color: #4993c2;
+}
+
+.review-section{
+  margin-top: 2em;
+}
+
+.review-section-header {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+}
+
+.review-tip {
+  font-size: 0.9em;
+}
+
+.write-review-button {
+  background-color:#4993c2; 
+  color: #f6f4f4 !important;
+  transition: ease 0.3s;
+}
+
+.write-review-button:hover {
+  background-color:#337299; 
+  color:white;
+}
+
+.review-container {
+  margin: 2em;
+  padding: 4em;
+  text-align: center;
+}
+
+.rating {
+  width: 100px;
+}
+
+.review-button {
+  background-color: #799c24;
+  color: #f6f4f4 !important;
+  border: 1px solid #799c24;
+  transition: ease 0.3s;
+}
+
+.review-button:hover {
+  background-color: #709121;
+  color: white !important;
+  border: 1px solid #709121;
+}
+
+.review-title-on-page {
+   font-weight: 700;
+}
+
+.rating-star {
+  font-size: 0.8em;
+  color: #e6b23a;
+}
+
+.review-user-on-page {
+  margin-bottom: 0.6em;
+}
+
+.review-container-on-page {
+  margin-bottom: 2em;
+}
+
+.review-date-on-page {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.reviewer-icon {
+  color: grey;
+  font-size: 1.4em;
+}
+
+.positive-reviews {
+  color: #000;
+  font-weight: 700;
+}
+
+.voting-area {
+  background-color: #4993c2;
+  padding: 10px;
+  color: white;
+  border-radius: 5px;
+  width: 250px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.vote-button {
+  font-size: 1.2em;
+  margin-right: 0.5em;
+  color: #c6ddec;
+}
+
+.vote-button:hover {
+  color: white;
+}

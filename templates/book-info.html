@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container-fluid">
+  <div class="row book-info-container">
+    <div class="book-info-left">
+      <img class="book-covers" src="{{url_for('static', filename=selected_book['image'])}}">
+        <div class="review-section">
+          <h5 class="review-section-header">Review this book</h5>
+          <p class="review-tip">Share your thoughts with the other members</p>
+          {% if member_to_login is defined %}
+            {% if member_to_login[0]['member_id'] in reviewers_ids %}
+            <a class="btn btn-secondary disabled write-review-button" href="/books/{{selected_book['book_id']}}/review" disabled=disabled>Already reviewed</a>
+            {% else %}
+            <a class="btn btn-primary write-review-button" href="/books/{{selected_book['book_id']}}/review">Write your review</a>
+            {% endif %}
+          {% elif member_to_login is undefined %}
+          <a class="btn btn-dark" href="{{url_for('login')}}">Login to review</a>
+          {% endif %}  
+        </div>
+    </div>
+
+    <div class="book-info-right">
+      <h5 class="book-info-title">{{selected_book['title']}}</h5><span class="book-info-published-date">Hardcover - {{selected_book['published_date']}}</span>
+      <p>by <a class="book-info-author-link" href="#">{{selected_book['author']}}</a></p>
+      <p><span class="positive-reviews">{{positive_reviews}}% positive votes</span> &nbsp;{{selected_book['total_votes']}} votes</p>
+      <p class="available-books">{{selected_book['copies']}} available</p>
+      <hr class="my-4" />
+      <p>{{selected_book['about']}}</p>
+      <br>
+      <div class="voting-area">Did you like this book? &nbsp;
+        <a class="vote-button" href="/books/{{selected_book['book_id']}}/vote-up"><i class="fas fa-thumbs-up"></i></a>
+        <a class="vote-button" href="/books/{{selected_book['book_id']}}/vote-down"><i class="fas fa-thumbs-down"></i></a>
+      </div>
+      <br>
+      <br>
+      <hr class="my-4" />
+      <h5>Reviews</h5>
+      <br>
+      {% for review in reviews %}
+        <div class="review-container-on-page">
+          <div class="review-user-on-page"> <i class="fas fa-user reviewer-icon"></i> &nbsp;{{review['username']}}</div>
+          <div>
+            <span>{{(review['review_rating']) * '<i class="fas fa-star rating-star"></i>' | safe}} &nbsp; </span>
+            <span class="review-title-on-page">{{review['subject']}} 	&nbsp;</span>
+          </div>
+          <div><p class="review-date-on-page">Reviewed on {{review['review_date']}}</p></div>
+          <div>
+            <p>{{review['message']}}</p>
+          </div>
+          
+        </div>
+        
+      {% endfor %}
+      <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+    </div>
+  </div>
+</div>
+
+{% endblock%}
