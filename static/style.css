@@ -307,12 +307,18 @@ label {
   color: #e6b23a;
 }
 
-.review-user-on-page {
+.review-info {
   margin-bottom: 0.6em;
 }
 
 .review-container-on-page {
   margin-bottom: 2em;
+}
+
+.review-user-on-page {
+  font-weight: 700;
+  color:#4993c2;
+  text-transform: capitalize;
 }
 
 .review-date-on-page {
@@ -348,4 +354,13 @@ label {
 
 .vote-button:hover {
   color: white;
+}
+
+.review-content {
+  margin-left: 2em;
+}
+
+.review-image {
+  width: 330px;
+  height: 500px;
 }

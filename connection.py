@@ -154,19 +154,19 @@ def delete_returned_book_database(cursor, selected_rented_id):
   
 
 @database_common.connection_handler
-def add_review_to_database(cursor, reviewed_book_id, reviewer_member_id, review):
+def add_review_to_database(cursor, reviewed_book_id, reviewer_member_id, review, filename):
     cursor.execute(f"""
     INSERT INTO review
-    (member_id, book_id, review_date, review_rating, message, subject)
+    (member_id, book_id, review_date, review_rating, message, subject, image)
     VALUES ({reviewer_member_id}, {reviewed_book_id}, CURRENT_DATE, {review['rating']},
-     '{review['message']}', '{review['subject']}')
+     '{review['message']}', '{review['subject']}', '{filename}')
     """)
 
 
 @database_common.connection_handler
 def get_book_reviews(cursor, selected_book_id):
     cursor.execute(f"""
-    SELECT r.review_date, r.review_rating, r.message, r.subject, m.username from review r
+    SELECT r.review_date, r.review_rating, r.image, r.message, r.subject, m.username from review r
     INNER JOIN member m
     ON(m.member_id = r.member_id)
     WHERE book_id={selected_book_id}

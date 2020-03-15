@@ -1,12 +1,17 @@
 
-from flask import Flask, session, request, render_template, redirect
+from flask import Flask, session, request, render_template, flash, redirect, url_for
 from markupsafe import escape
 import os
+from werkzeug.utils import secure_filename
 import connection as con
 import util as utl
 
 
+UPLOAD_FOLDER = 'static/'
+
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.secret_key = b'-5#y2Y"F4Q8*\n\xec]/'
 
@@ -60,7 +65,6 @@ def books():
 @app.route('/books/<book_id>/info')
 def get_book_info(book_id: int):
     reviewers_ids = []
-    print(book_id)
     selected_book_id = con.get_book_by_id(book_id)['book_id']
     reviewers_for_book = con.get_reviewers_for_book(selected_book_id)
     for reviewer in reviewers_for_book:
@@ -69,7 +73,6 @@ def get_book_info(book_id: int):
     selected_book = con.get_all_info_for_selected_book(book_id)
     positive_reviews = utl.calculate_vote_percentage(selected_book['votes_up'], selected_book['votes_down'])
     if 'username' in session:
-        print(session['username'])
         member_to_login = con.check_registered_user(session['username'])
         member_page = True
         member_full_name = con.get_user_full_name(session['username'])
@@ -199,9 +202,15 @@ def write_review(book_id):
     reviewer_member_id = con.get_member_id_by_username(session_username)['member_id']
     reviewed_book_id = book_id
     if request.method == 'POST':
+        filename = "no image"
+        file = request.files['file']
+        if file and utl.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        print('FILNEAMUUUUUUUUUU', filename) 
         review = request.form
-        con.add_review_to_database(reviewed_book_id, reviewer_member_id, review)
-        return redirect(f'/books/{selected_book_id}/info')
+        con.add_review_to_database(reviewed_book_id, reviewer_member_id, review, filename)
+        return redirect(url_for('get_book_info', book_id=book_id))
 
     return render_template('review.html', selected_book_id=selected_book_id,
                                           reviews=reviews)
