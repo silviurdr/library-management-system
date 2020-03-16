@@ -7,18 +7,18 @@
         <form method="post" enctype=multipart/form-data>
             <label for="subject">Subject:</label>
             <br>
-            <input type="text" id="subject" name="subject" required>
+            <input type="text" id="subject" name="subject" required value="{{review_to_edit['subject']}}">
             <br>
             <br>
             <label for="review">Message</label>
             <br>
-            <textarea id="message" name="message" rows="10" cols="100" required></textarea>
+            <textarea id="message" name="message" rows="10" cols="100" required>{{review_to_edit['message']}}</textarea>
             <br>
             <br>
-            <label class="rating" for="rating">Rating</label>
+            <label for="rating">Rating ({{(review_to_edit['review_rating']) * '<i class="fas fa-star rating-star"></i>' | safe}})</label>
             <br>
-            <select class="rating" name="rating" required>
-                <option disabled selected value="">-- rating --</option>
+            <select class="rating" name="rating">
+                <option disabled selected value="Nothing">-- rating --</option>
                 <option value="1">*
                 </option>
                 <option value="2">**
@@ -32,10 +32,17 @@
             </select>
             <br>
             <br>
+            <strong>Add/Change Image</strong>
+            <br>
+            <br>
             <input type="file" name=file>
             <br>
+            {% if image in review_to_edit.keys() %}
+            <img class="review-image" src="{{url_for('static', filename=review_to_edit['image'])}}">
+            {% endif %}
             <br>
-            <button type="submit" class="btn btn-success review-button" method="post">Publish Review</a>
+            <br>
+            <button type="submit" class="btn btn-success review-button" method="post">Edit Review</a>
 
         </form>
     </div>

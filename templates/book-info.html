@@ -40,7 +40,12 @@
       <br>
       {% for review in reviews %}
         <div class="review-container-on-page">
-          <div class="review-info"> <i class="fas fa-user reviewer-icon"></i> &nbsp;<span class="review-user-on-page">{{review['username']}}</span>
+          <div class="review-info"> <i class="fas fa-user reviewer-icon"></i> &nbsp;
+            {%if login_username == review['username']%}
+            <a href="/member/{{review['member_id']}}"><span class="review-user-on-page">You</span></a>
+            {% else %}
+            <a href="/member/{{review['member_id']}}"><span class="review-user-on-page">{{review['username']}}</span></a>
+            {% endif %}
           <span>rated it &nbsp;{{(review['review_rating']) * '<i class="fas fa-star rating-star"></i>' | safe}} &nbsp;</span>
           <span class="review-date-on-page">on {{review['review_date']}}</span>
         </div>
@@ -48,17 +53,28 @@
           <div class="review-content">
             <p class="review-title-on-page">{{review['subject']}} 	&nbsp;</p>
             <p>{{review['message']}}</p>
+            {% if review['image'] != None %}
+            <div><img class="review-image" src="{{url_for('static', filename=review['image'])}}"></div>
+            {% endif %}
             
-          {% if review['image'] != None %}
-          <img class="review-image" src="{{url_for('static', filename=review['image'])}}">
-
-          {% endif %}
+            {% if member_to_login is defined and member_to_login[0]['username'] != review['username']  %}
+            <span>{{review['votes_up']}}</span>
+            <a class="review-vote-button" href="/review/{{review['review_id']}}/vote-up"><i class="fas fa-thumbs-up"></i></a>
+            <span>{{review['votes_down']}}</span>
+            <a class="review-vote-button" href="/review/{{review['review_id']}}/vote-down"><i class="fas fa-thumbs-down"></i></a>
+            {% else %}
+            <span>{{review['votes_up']}}</span>
+            <i class="fas fa-thumbs-up review-vote-button-disabled"></i>
+            <span>{{review['votes_down']}}</span>
+            <i class="fas fa-thumbs-down review-vote-button-disabled"></i>
+              {% if member_page == True %}
+              <a href="/review/{{review['review_id']}}/edit"><i class="fas fa-edit edit-button"></i></a>
+              {% endif %}
+            {% endif %}
           </div>
           
         </div>
-        
       {% endfor %}
-      <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
     </div>
   </div>
 </div>

@@ -29,9 +29,9 @@
         </div>
         {% if member_to_login is defined %}
         <a class="my-books-link" href="{{url_for('show_my_books')}}">My Books</a>
-        <strong class="welcome-member">
-          Member: {{member_full_name[0]['full_name']}}
-        </strong>
+        <p class="welcome-member">
+         <i class="fas fa-user"></i> &nbsp; <a class="user-link" href="/member/{{member_to_login[0]['member_id']}}">{{login_username}}</a>
+        </p>
         {% endif %}
         <div class="users-area">
           {% if member_page == True%}

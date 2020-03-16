@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid member-profile">
+
+    <div class="row  header-member-profile">
+        <div class="col-sm-4">
+            <img class="reader-image" src="{{url_for('static', filename='what.png')}}">
+        </div>
+        <div class="col-sm-8 user-details-container">
+            <div class="user-details">
+                <h3 class="member-name">{{user_info[0]['full_name']}}</h3>
+                <br>
+                <p class="member-location">{{user_info[0]['city']}}, Romania</p>
+            </div> 
+        </div>
+    </div>
+    <div class="row about-insights">
+        <div class="col-sm-4">
+            <div class="user-activity">
+                <p class="about-user">About</p>
+                <p>Reputation: 99%</p>
+                <p>Days of membership: 239</p>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="insights">
+                <p class="insights-title">Insights</p>
+                <div class="user-reviews">
+                    <div class="user-reviews-count">{{reviews_count}}</div>
+                    <div class="user-reviews-title">Reviews</div>
+                </div>
+                <div class="user-reviews">
+                    <div class="user-reviews-count">255</div>
+                    <div class="user-reviews-title">Comments</div>
+                </div>
+                <div class="user-reviews">
+                    <div class="user-reviews-count">12</div>
+                    <div class="user-reviews-title">Favourite Genres</div>
+                </div>
+                <div class="user-reviews">
+                    <div class="user-reviews-count">2</div>
+                    <div class="user-reviews-title">Reading lists</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row favourite-activity">
+        <div class="col-sm-4">
+            <div class="favourite-books">
+                <p class="favourite-books-title">Favourite Books</p>
+                <div class="favourite-books-container">
+                    <div>
+                    <img class="favourite-book-image" src="{{url_for('static', filename='blindness.jpg')}}">
+                    </div>
+                    <div>
+                    <img class="favourite-book-image" src="{{url_for('static', filename='2011aspaceodissey.jpg')}}">
+                    </div>
+                    <div>
+                    <img class="favourite-book-image" src="{{url_for('static', filename='thinkfastandslow.jpg')}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="community-activity">
+                <p class="community-activity-title">Community Activity</p>  
+            </div>
+
+            {% for review in user_reviews%}
+            <div class="member-review-date">
+                <img class="member-review-date-image" src="{{url_for('static', filename='what.png')}}">
+                <span><span class="member-review-date-username">Caine</span> <span class="member-review-date-date">reviewed a book on {{review['review_date']}}</span></span>
+            </div>
+            <div class="review-content-member-page">
+                    <p>{{(review['review_rating']) * '<i class="fas fa-star rating-star"></i>' | safe}}</p>
+                    <p class="review-title-on-page">{{review['subject']}}	&nbsp;</p>
+                    <p>{{review['message']}}</p>
+                    {% if review['image'] != None %}
+                    <div><img class="review-image" src="{{url_for('static', filename=review['image'])}}"></div>
+                    {% endif %}
+
+                    <a class="reviewed-book-title" href="/books/{{review['book_id']}}/info"><div class="book-reviewed">
+                        <img class="reviewed-book-image" src="{{url_for('static', filename=review['book_image'])}}">
+                        {{review['title']}}
+                    </div></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

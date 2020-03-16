@@ -147,7 +147,7 @@ table {
   padding: 50px;
 }
 
-label {
+.rating {
   display: inline-block;
   width: 100px;
   text-align: left;
@@ -157,6 +157,7 @@ label {
   min-width: 100%;
 }
 
+
 .wrong-username {
   color: #d43c3d;
 }
@@ -164,6 +165,7 @@ label {
 .welcome-member {
   float: left;
   margin: 0;
+  color: #4993c2;
 }
 
 
@@ -223,12 +225,14 @@ label {
 }
 
 .book-info-left {
-  flex: 1;
 }
 
 .book-info-right {
   flex: 3.5;
+  max-width: 900px;
   padding-right: 4em;
+  float: left;
+  margin-left: 4em;
 }
 
 
@@ -349,12 +353,29 @@ label {
 .vote-button {
   font-size: 1.2em;
   margin-right: 0.5em;
-  color: #c6ddec;
+  color: #d9e8f2;
 }
 
 .vote-button:hover {
   color: white;
 }
+
+.review-vote-button, .review-vote-button-disabled {
+  font-size: 1.2em;
+  margin-right: 0.5em;
+  color: #4993c2;;
+}
+
+.review-vote-button-disabled {
+  color: #666;
+}
+
+.edit-button {
+  font-size: 1.2em;
+  margin-left: 1em;
+  color: #4993c2;;
+}
+
 
 .review-content {
   margin-left: 2em;
@@ -363,4 +384,202 @@ label {
 .review-image {
   width: 330px;
   height: 500px;
+  margin: 1em 0em;
+}
+
+.user-link {
+  color: #4993c2;
+}
+
+.user-link:hover {
+  color: #4993c2;
+}
+
+.member-profile {
+  width: 900px;
+  margin: 0 auto;
+  font-size: 0.9em;
+  margin-bottom: 2em;
+} 
+
+.profile-image-container {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  height: 22em;
+}
+
+.reader-image {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  float: left;
+  margin-top: 2em;
+  margin-left: 2em;
+  display: inline-block;
+}
+
+.user-details-container {
+  text-align: left;
+}
+
+.member-name {
+  display: inline-block;
+  margin-top: 4em;
+}
+
+.member-location {
+  display: inline-block;
+}
+
+.user-activity {
+  margin-top: 1em;
+  border: 1px solid #4993c2;
+  text-align: left;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.about-user, .insights-title, .favourite-books-title {
+  font-weight: bold;
+  margin-bottom: 2em;
+}
+
+.community-activity-title {
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.community-activity > p {
+  margin-bottom: 0;
+}
+
+.user-activity > p {
+  line-height: 1.2em;
+}
+
+.about-insights {
+  padding: 0 !important;
+}
+
+.col-sm-4, .col-sm-8 {
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+.insights {
+  margin-left: 1em;
+  border: 1px solid #d5dbdb;
+  box-shadow: 0 1px 2px 0 rgba(135,149,150,.1);
+  margin-top: 1em;
+  padding: 20px;
+  text-align: left;
+}
+
+.user-reviews {
+  display: inline-block;
+  margin-right: 2em;
+}
+
+
+.user-reviews-count {
+  font-size: 2em;
+  margin-bottom: 0.2em;
+}
+
+.favourite-activity {
+  margin-top: 1em;
+}
+
+.favourite-books {
+  background-color:#f5f7f5;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: left;
+}
+
+.favourite-books-container {
+  display: flex;
+  align-content: space-between;
+}
+
+.favourite-book-image {
+  width: 65px;
+  height: 100px;
+  margin-right: 30px;
+  border: 1px solid #ccc;
+}
+
+.reviewed-book-image {
+  width: 42px;
+  height: 63px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+}
+
+.community-activity {
+  border: 1px solid #ccc;
+  margin-left: 1em;
+  text-align: left;
+  padding: 20px;
+}
+
+.header-member-profile {
+  border: 1px solid #ccc;
+}
+
+
+.member-review-date {
+  border: 1px solid #ccc;
+  margin-left: 1em;
+  padding: 20px;
+  text-align: left;
+  margin-top: 1em;
+  line-height: 100%;
+  border-bottom: 0px;
+}
+
+.member-review-date > p {
+  margin-bottom: 0;
+}
+
+.member-review-date-username {
+  font-weight: bold;
+  margin-right: 1em;
+}
+
+.member-review-date-date {
+  color: #666;
+}
+
+.review-content-member-page {
+  border: 1px solid #ccc;
+  margin-left: 1em;
+  padding: 20px;
+  text-align: left;
+}
+
+.member-review-date-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1em;
+}
+
+.book-reviewed {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 2em 0 1em 0;
+}
+
+.reviewed-book-title {
+  color: #282828;
+  font-weight: bold;
+  transition: ease 0.3s;
+}
+
+.reviewed-book-title:hover {
+  color: #4993c2; 
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
 }

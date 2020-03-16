@@ -11,12 +11,12 @@ def get_all_books(cursor):
     return all_books
 
 
-@database_common.connection_handler
-def get_book_id(cursor, book_id):
-    cursor.execute(f"""
-    SELECT book_id from book
-    WHERE book_id={book_id};
-    """)
+# @database_common.connection_handler
+# def get_book_id(cursor, book_id):
+#     cursor.execute(f"""
+#     SELECT book_id from book
+#     WHERE book_id={book_id};
+#     """)
 
 
 @database_common.connection_handler
@@ -35,6 +35,16 @@ def check_registered_user(cursor, username):
 
     login_member = cursor.fetchall()
     return login_member
+
+
+@database_common.connection_handler
+def get_user_info(cursor, selected_member_id):
+    cursor.execute("""
+    SELECT * FROM member
+    WHERE member_id = '{0}'
+    """.format(selected_member_id))
+    user_info = cursor.fetchall()
+    return user_info
 
 
 @database_common.connection_handler
@@ -68,6 +78,13 @@ def get_member_id_by_username(cursor, username_session):
     return member_id
 
 
+@database_common.connection_handler
+def get_member_id_by_username_from_review(cursor, reviewer_member_id):
+    cursor.execute("""
+    SELECT member_id FROM review
+    WHERE member_id='{0}'""".format(reviewer_member_id))
+    member_id = cursor.fetchone()
+    return member_id
 
 
 @database_common.connection_handler
@@ -166,10 +183,12 @@ def add_review_to_database(cursor, reviewed_book_id, reviewer_member_id, review,
 @database_common.connection_handler
 def get_book_reviews(cursor, selected_book_id):
     cursor.execute(f"""
-    SELECT r.review_date, r.review_rating, r.image, r.message, r.subject, m.username from review r
+    SELECT r.review_date, r.member_id, r.review_rating, r.review_id, r.votes_up, r.votes_down,
+    r.image, r.message, r.subject, m.username from review r
     INNER JOIN member m
     ON(m.member_id = r.member_id)
     WHERE book_id={selected_book_id}
+    ORDER by r.review_date DESC;
     """)
     reviews = cursor.fetchall()
     return reviews
@@ -220,6 +239,14 @@ def register_vote_for_member(cursor, username_session, book_id, index):
     """)
 
 @database_common.connection_handler
+def register_vote_review_for_member(cursor, username_session, review_id, index):
+    cursor.execute(f"""
+    UPDATE member
+    SET voted_reviews[{index}]={review_id}
+    WHERE username='{username_session}'
+    """)
+
+@database_common.connection_handler
 def get_voted_books_for_member(cursor, username_session):
     cursor.execute(f"""
     SELECT voted_books from member
@@ -227,3 +254,83 @@ def get_voted_books_for_member(cursor, username_session):
     """)
     all_voted_books = cursor.fetchone()
     return all_voted_books
+
+@database_common.connection_handler
+def get_voted_reviews_for_member(cursor, username_session):
+    cursor.execute(f"""
+    SELECT voted_reviews from member
+    WHERE username='{username_session}'
+    """)
+    all_reviews_voted = cursor.fetchone()
+    return all_reviews_voted
+
+
+@database_common.connection_handler
+def get_book_id_by_review_id(cursor, selected_review_id):
+    cursor.execute(f"""
+    SELECT book_id from review
+    WHERE review_id={selected_review_id}
+    """)
+    book_id_for_review = cursor.fetchone()
+    return book_id_for_review
+
+
+@database_common.connection_handler
+def vote_review_up(cursor, selected_review_id):
+    cursor.execute(f"""
+    UPDATE review
+    SET votes_up = votes_up + 1
+    WHERE review_id={selected_review_id}
+    """)
+
+
+@database_common.connection_handler
+def vote_review_down(cursor, selected_review_id):
+    cursor.execute(f"""
+    UPDATE review
+    SET votes_down = votes_up + 1
+    WHERE review_id={selected_review_id}
+    """)
+
+
+@database_common.connection_handler
+def get_info_for_review(cursor, selected_review_id):
+    cursor.execute(f"""
+    SELECT message, image, subject, review_rating
+    FROM review
+    WHERE review_id={selected_review_id}
+    """)
+    info_for_review = cursor.fetchone()
+    return info_for_review
+
+
+@database_common.connection_handler
+def edit_review_database(cursor, selected_review_id, review_to_edit, filename):
+    cursor.execute(f"""
+    UPDATE review
+    SET message='{review_to_edit["message"]}', subject='{review_to_edit["subject"]}',
+    image='{filename}', review_rating={review_to_edit["review_rating"]}
+    WHERE review_id={selected_review_id}
+    """)
+
+
+@database_common.connection_handler
+def get_user_reviews(cursor, selected_member_id):
+    cursor.execute(f"""
+    SELECT r.review_date, r.message, r.image, r.subject, r.review_rating,
+    r.votes_up, r.votes_down, b.book_id, b.title, b.image as book_image from review r
+    INNER JOIN book b ON (b.book_id=r.book_id)
+    WHERE member_id={selected_member_id}
+    ORDER BY r.review_date DESC;
+    """)
+    reviews_for_user = cursor.fetchall()
+    return reviews_for_user
+
+@database_common.connection_handler
+def get_reviews_count_for_user(cursor, selected_member_id):
+    cursor.execute(f"""
+    SELECT COUNT(review_id) FROM review
+    WHERE member_id={selected_member_id};
+    """)
+    reviews_count = cursor.fetchone()
+    return reviews_count
