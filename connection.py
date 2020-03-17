@@ -334,3 +334,13 @@ def get_reviews_count_for_user(cursor, selected_member_id):
     """)
     reviews_count = cursor.fetchone()
     return reviews_count
+
+
+@database_common.connection_handler
+def get_role_for_user(cursor, session_username):
+    cursor.execute(f"""
+    SELECT role from member
+    WHERE username='{session_username}'
+    """)
+    user_role = cursor.fetchone()
+    return user_role

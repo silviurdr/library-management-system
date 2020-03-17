@@ -1,34 +1,38 @@
 {% extends 'base.html'%}
 
 {% block content%}
-<div class="books-container">
-  <h1 class="books-page-header">My Books</h1>
-  <table>
-    <thead class="books-headings">
-        {% for heading in books_headings%}
-        <th>{{heading}}</th>
-        {% endfor %}
-    </thead>
-    <tbody>
-        {% for book in books_for_member%}
-            <tr>
-            {% for key, value in book.items()%} 
-                {% if key == 'title' %}
-                <td>
-                    <a class="book-title" href="/books/{{book['book_id']}}/info"
-                    >{{value}}</a>
-                </td>
-                {% elif key == 'remaining_days' %} 
-                    <td>  {{value}} days</td> 
-                {% else %}
-                    <td>{{value}}</td>
-                {% endif %}
-                
+<div class="container-fluid">
+    <div class="row">
+        <div class="books-container">
+        <h1 class="books-page-header">My Books</h1>
+        <table>
+            <thead class="books-headings">
+                {% for heading in books_headings%}
+                <th>{{heading}}</th>
+                {% endfor %}
+            </thead>
+            <tbody>
+                {% for book in books_for_member%}
+                    <tr>
+                    {% for key, value in book.items()%} 
+                        {% if key == 'title' %}
+                        <td>
+                            <a class="book-title" href="/books/{{book['book_id']}}/info"
+                            >{{value}}</a>
+                        </td>
+                        {% elif key == 'remaining_days' %} 
+                            <td>  {{value}} days</td> 
+                        {% else %}
+                            <td>{{value}}</td>
+                        {% endif %}
+                        
+                    {% endfor %}
+                    <td><a class="return-book" href="/return-book/{{book['book_id']}}">Return</a></td>
             {% endfor %}
-            <td><a class="return-book" href="/return-book/{{book['book_id']}}">Return</a></td>
-       {% endfor %}
-    </tbody>
-</table>
+            </tbody>
+        </table>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

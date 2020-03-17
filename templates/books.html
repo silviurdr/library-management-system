@@ -1,40 +1,45 @@
 {% extends 'base.html'%} {% block content %}
 
-<div class="books-container">
-  <h1 class="books-page-header">The Books</h1>
-  <table>
-    <thead class="books-headings">
-      {% for heading in books_headings%}
-      <th>{{heading}}</th>
-      {% endfor %}
-    </thead>
-    <tbody>
-      {% for book in all_books %}
-      <tr>
-        {% for key, value in book.items()%} {% if key == 'title' %}
-        <td>
-          <a class="book-title" href="/books/{{book['book_id']}}/info"
-            >{{value}}</a
-          >
-        </td>
-        {% endif %} {% if key != 'title' and key != 'image' and key != 'about' %}
-        <td>{{value}}</td>
-        {% endif %} {% endfor %} {% if member_page %}
-        {% if book['copies'] == 0 %}
-        <td class="unavailable-book"><span class="unavailable-book-link" href="#">Currently unavailable</span></td>
-        {% elif book['title'] in titles %}
-        <td class="already-rented"><span class="already-rented-link" href="#">Already rented</span></td>
-        {% else %}
-        <td><a class="rent-book" href="/rent-book/{{book['book_id']}}">Rent Book</a></td>
-        {% endif %}
-        {% else %}
-        <td>
-          <a href="{{url_for('login')}}">Login to rent a book</button>
-        </td>
-        {% endif %} {% endfor %}
-      </tr>
-    </tbody>
-  </table>
-  <p>{{book}}</p>
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="books-container">
+        <h1 class="books-page-header">The Books</h1>
+        <table>
+          <thead class="books-headings">
+            {% for heading in books_headings%}
+            <th>{{heading}}</th>
+            {% endfor %}
+          </thead>
+          <tbody>
+            {% for book in all_books %}
+            <tr>
+              {% for key, value in book.items()%} {% if key == 'title' %}
+              <td>
+                <a class="book-title" href="/books/{{book['book_id']}}/info"
+                  >{{value}}</a
+                >
+              </td>
+              {% endif %} {% if key != 'title' and key != 'image' and key != 'about' %}
+              <td>{{value}}</td>
+              {% endif %} {% endfor %} {% if member_page %}
+              {% if book['copies'] == 0 %}
+              <td class="unavailable-book"><span class="unavailable-book-link" href="#">not available</span></td>
+              {% elif book['title'] in titles %}
+              <td class="already-rented"><span class="already-rented-link" href="#">already rented</span></td>
+              {% else %}
+              <td><a class="rent-book" href="/rent-book/{{book['book_id']}}">rent book</a></td>
+              {% endif %}
+              {% else %}
+              <td>
+                <a class="book-title" href="{{url_for('login')}}">Login to rent a book</button>
+              </td>
+              {% endif %} {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+        <p>{{book}}</p>
+      </div>
+  </div>
 </div>
 {% endblock %}

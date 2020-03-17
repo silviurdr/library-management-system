@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Library Manager</title>
     <script src="https://kit.fontawesome.com/a414b1a528.js" crossorigin="anonymous"></script>
     <link
@@ -21,43 +21,74 @@
 
   <body>
     <div class="container-fluid">
-      <nav class="navbar bg-light">
-        <div class="site-title-container">
-          <a class="site-title" href="/"
-            >Codecool <span class="site-title-span">Private Library</span></a
-          >
-        </div>
-        {% if member_to_login is defined %}
-        <a class="my-books-link" href="{{url_for('show_my_books')}}">My Books</a>
-        <p class="welcome-member">
-         <i class="fas fa-user"></i> &nbsp; <a class="user-link" href="/member/{{member_to_login[0]['member_id']}}">{{login_username}}</a>
-        </p>
-        {% endif %}
-        <div class="users-area">
-          {% if member_page == True%}
-          <a href="{{url_for('logout')}}">Logout</a>
-          {% endif %} {% if member_page == False %}
-          <a href="{{url_for('login')}}">Log In</a>
-          <a href="{{url_for('register_new_member')}}">Register</a>
-          {% endif %}
-        </div>
+      <div class="row">
+        <div class="col-sm-12">
+        <nav class="navbar">
+          <div class="col-sm-2">
+            <div class="site-title-container">
+              <a class="site-title" href="/"
+                >Codecool <span class="site-title-span">Private Library</span></a>
+            </div>
+          </div>
+          {% if member_to_login is defined %}
+          <div class="col-sm-4 center-block" >
+              <div class="site-links">
+                {% if user_role == 'member' %}
+                <a class="my-books-link" href="{{url_for('show_my_books')}}">My Books</a>
+                {% elif user_role == 'admin' %}
+                <a class="my-books-link" href="#">Users List</a>
+                {% endif %}
+                <a class="my-books-link" href="{{url_for('books')}}">Library Books</a>
+                <a class="my-books-link" href="#">What Books</a>
+                <a class="my-books-link" href="#">History</a>
+              </div>
+          </div>
+          <div class="col-sm-1">
+            <p class="welcome-member">
+            <i class="fas fa-user"></i> &nbsp; <a class="user-link" href="/member/{{member_to_login[0]['member_id']}}">{{login_username}}</a>
+            </p>
+          </div>
+          {% else %}
+            <div class="col-sm-4 center-block" >
+              <div class="site-links">
+                <a class="my-books-link" href="{{url_for('books')}}">Library Books</a>
+                <a class="my-books-link" href="#">What Books</a>
+                <a class="my-books-link" href="#">History</a>
+              </div>
+            </div>
 
-        <form class="form-inline">
-          <input
-            class="form-control mr-sm-2 search-input"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button
-            class="btn btn-outline-success my-2 my-sm-0 search-button"
-            type="submit"
-          >
-            Search
-          </button>
-        </form>
-      </nav>
-      {% block content %} {% endblock %}
+          {% endif %}
+
+          <div class="col-sm-1">
+            <div class="users-area">
+              {% if member_page == True%}
+              <a href="{{url_for('logout')}}">Logout</a>
+              {% endif %} {% if member_page == False %}
+              <a href="{{url_for('login')}}">Log In</a>&nbsp;
+              <a href="{{url_for('register_new_member')}}">Register</a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-sm-3 center-block">
+            <form class="form-inline" style="float:right">
+              <input
+                class="form-control mr-sm-2 search-input"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button
+                class="btn btn-outline-success my-2 my-sm-0 search-button"
+                type="submit"
+              >
+                Search
+              </button>
+            </form>
+          </div>
+        </nav>
+        {% block content %} {% endblock %}
+        </div>
+      </div>
     </div>
   </body>
 </html>

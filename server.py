@@ -17,28 +17,10 @@ app.secret_key = b'-5#y2Y"F4Q8*\n\xec]/'
 
 
 @app.route('/', methods=['POST', 'GET'])
-def index():
-    member_page = False
-    if 'username' in session:
-        login_username = session['username']
-        member_page = True
-        member_to_login = con.check_registered_user(session['username'])
-        print(member_to_login)
-        member_full_name = con.get_user_full_name(session['username'])
-        return render_template('index.html',
-                               member_page=member_page,
-                               member_full_name=member_full_name,
-                               member_to_login=member_to_login,
-                               login_username=login_username)
-    else:
-        return render_template('index.html',
-                               member_page=member_page)
-
-
 @app.route('/books')
 def books():
     BOOKS_HEADINGS = ['ID', 'Title', 'Author',
-                      'Published Date', 'ISBN', 'Copies', 'Votes Up', 'Votes Down', 'Status']
+                      'Published Date', 'ISBN', 'Copies Available', 'Votes Up', 'Votes Down', 'Status']
 
     all_books = con.get_all_books()
     member_page = False
@@ -49,7 +31,7 @@ def books():
         member_to_login = con.check_registered_user(session['username'])
         member_full_name = con.get_user_full_name(session['username'])
         member_page = True
-
+        user_role = con.get_role_for_user(session['username'])['role']
         titles = utl.get_list_of_titles_rented_per_member(session)
 
         return render_template('books.html',
@@ -59,7 +41,8 @@ def books():
                                member_page=member_page,
                                member_full_name=member_full_name,
                                titles=titles,
-                               login_username=login_username)
+                               login_username=login_username,
+                               user_role=user_role)
 
     return render_template('books.html',
                            all_books=all_books,
@@ -87,6 +70,7 @@ def get_book_info(book_id: int):
         member_to_login = con.check_registered_user(session['username'])
         member_page = True
         member_full_name = con.get_user_full_name(session['username'])
+        user_role = con.get_role_for_user(session['username'])['role']
 
         return render_template('book-info.html',
                                selected_book=selected_book,
@@ -97,7 +81,8 @@ def get_book_info(book_id: int):
                                positive_reviews=positive_reviews,
                                reviews=reviews,
                                login_username=login_username,
-                               reviewer_member_id=reviewer_member_id)
+                               reviewer_member_id=reviewer_member_id,
+                               user_role=user_role)
     else:
         return render_template('book-info.html',
                                reviews=reviews,
@@ -139,13 +124,17 @@ def login():
             if is_member:
                 member_page = True
                 session['username'] = request.form['username']
+                user_role = con.get_role_for_user(session['username'])['role']
                 member_full_name = con.get_user_full_name(session['username'])
                 return render_template('books.html',
-                                       member_to_login=member_to_login,
-                                       books_headings=BOOKS_HEADINGS,
-                                       all_books=all_books,
-                                       member_page=member_page,
-                                       member_full_name=member_full_name)
+                                    member_to_login=member_to_login,
+                                    books_headings=BOOKS_HEADINGS,
+                                    all_books=all_books,
+                                    member_page=member_page,
+                                    member_full_name=member_full_name,
+                                    user_role=user_role)
+
+
             else:
                 return render_template('login.html', is_member=is_member)
         else:
@@ -185,6 +174,7 @@ def show_my_books():
         member_to_login = con.check_registered_user(session['username'])
         member_page = True
         member_full_name = con.get_user_full_name(session['username'])
+        user_role = con.get_role_for_user(session['username'])['role']
 
         username = session['username']
         books_for_member = con.get_books_for_member(username)
@@ -194,7 +184,8 @@ def show_my_books():
                         member_to_login=member_to_login,
                         member_page=member_page,
                         member_full_name=member_full_name,
-                        login_username = session['username'])
+                        login_username=session['username'],
+                        user_role=user_role)
 
 @app.route('/return-book/<book_id>')
 def return_book(book_id):
@@ -327,14 +318,31 @@ def edit_review(review_id):
 def user_page(member_id):
     user_info = con.get_user_info(member_id)
 
+    
     user_reviews = con.get_user_reviews(member_id)
     reviews_count = con.get_reviews_count_for_user(member_id)['count']
-    
-    return render_template('member-page.html',
-                    user_info=user_info,
-                    user_reviews=user_reviews,
-                    reviews_count=reviews_count)
+    member_page = True
 
+    if 'username' in session:
+        member_to_login = con.check_registered_user(session['username'])
+        login_username = session['username']
+        user_role = con.get_role_for_user(session['username'])['role']
+        
+        return render_template('member-page.html',
+                        user_info=user_info,
+                        user_reviews=user_reviews,
+                        reviews_count=reviews_count,
+                        member_to_login=member_to_login,
+                        member_page=True,
+                        login_username=login_username,
+                        user_role=user_role)
+
+    else:
+        return render_template('member-page.html',
+                        user_info=user_info,
+                        user_reviews=user_reviews,
+                        reviews_count=reviews_count,
+                        member_page=False)
 
 
 
