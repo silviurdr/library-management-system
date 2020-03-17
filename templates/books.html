@@ -3,6 +3,46 @@
 
 <div class="container-fluid">
   <div class="row">
+
+    <div class="col-sm-2">
+      <div class="sorting-area">
+        <form method="POST">
+          <label for="sort">Sort By:</label>
+          <select id="sort" name="sort">
+            <option value="book_id" {{new_sort_options['book_id']}}>ID</option>
+            <option value="title" {{new_sort_options['title']}}>Title</option>
+            <option value="author" {{new_sort_options['author']}}>Author</option>
+          </select>
+          <br>
+          <label for="order">Order &nbsp; &nbsp;</label>
+          <select id="order" name="order">
+            <option value="ASC" {{new_sort_options['ASC']}}>Ascending</option>
+            <option value="DESC" {{new_sort_options['DESC']}}>Descending</option>
+          </select>
+          <br>
+          <br>
+          <h5>Chose Genre</h5>
+          <input type="checkbox" id="horror" name="horror" value="horror">
+          <label for="horror">Horror</label>
+          <br>
+          <input type="checkbox" id="classical" name="classical" value="classical">
+          <label for="classical">Classica</label>
+          <br>
+          <input type="checkbox" id="psychology" name="psychology" value="psychology">
+          <label for="psychology">Psychology</label>
+          <br>
+          <input type="checkbox" id="kids" name="kids" value="kids">
+          <label for="kids">Kids</label>
+          <br>
+          <input type="checkbox" id="biography" name="biography" value="biography">
+          <label for="biography">Biography</label>
+          <br>
+          <br>
+          <button type="submit" class="btn btn-info sort-filter-button">Sort</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-sm-8">
       <div class="books-container">
         <h1 class="books-page-header">The Books</h1>
         <table>
@@ -16,7 +56,7 @@
             <tr>
               {% for key, value in book.items()%} {% if key == 'title' %}
               <td>
-                <a class="book-title" href="/books/{{book['book_id']}}/info"
+                <a class="book-title" style="width: 150px" href="/books/{{book['book_id']}}/info"
                   >{{value}}</a
                 >
               </td>
@@ -39,6 +79,7 @@
           </tbody>
         </table>
         <p>{{book}}</p>
+      </div>
       </div>
   </div>
 </div>

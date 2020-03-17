@@ -28,12 +28,12 @@ td {
 }
 
 th {
-  background-color: #4993c2;
+  background-color: #17a2b8;
   padding: 20px;
 }
 
 table {
-  border: 4px solid #4993c2;
+  border: 4px solid #17a2b8;
 }
 
 input[type="button"]{
@@ -56,7 +56,7 @@ input[type="button"]::-moz-focus-inner {
 }
 
 .books-page-header {
-  color: #4993c2;
+  color: #17a2b8;
 }
 
 .books-headings {
@@ -167,7 +167,6 @@ nav {
   font-size: 0.8em;
 }
 
-
 .book-title {
   color: #337299;
   text-decoration: underline;
@@ -232,21 +231,14 @@ nav {
 
 
 .unavailable-book{
-  color: #555;
-  background-color: #e38282;
   cursor: not-allowed;
+  color: #d43c3d;
 }
-
-
 
 .already-rented{
-  background-color: #e38282;
   cursor: not-allowed;
   text-transform: lowercase;
-}
-
-.already-rented-link {
-  color: #555;
+  color: #d43c3d
 }
 
 .rent-book, .return-book {
@@ -674,4 +666,13 @@ nav {
 
 .left-menu-search-area {
   margin-top: 2em;
+}
+
+.sorting-area {
+  margin-top: 10em;
+  text-align: center;
+}
+
+.sort-filter-button {
+  width: 200px;
 }

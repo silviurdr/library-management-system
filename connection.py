@@ -344,3 +344,12 @@ def get_role_for_user(cursor, session_username):
     """)
     user_role = cursor.fetchone()
     return user_role
+
+@database_common.connection_handler
+def sort_books_by_(cursor, sorting_option, sorting_order):
+    cursor.execute(f"""
+    SELECT * from book
+    ORDER BY {sorting_option} {sorting_order}
+    """)
+    all_books_sorted = cursor.fetchall()
+    return all_books_sorted

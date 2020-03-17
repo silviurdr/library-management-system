@@ -16,14 +16,34 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = b'-5#y2Y"F4Q8*\n\xec]/'
 
 
+sort_options = {
+                "book_id": "",
+                "title":  "",
+                "author": "",
+                "ASC": "",
+                "DESC": ""
+                }
+
+
 @app.route('/', methods=['POST', 'GET'])
-@app.route('/books')
+@app.route('/books', methods=['POST', 'GET'])
 def books():
     BOOKS_HEADINGS = ['ID', 'Title', 'Author',
                       'Published Date', 'ISBN', 'Copies Available', 'Votes Up', 'Votes Down', 'Status']
 
-    all_books = con.get_all_books()
+    global sort_options
+
+    new_sort_options = {
+        "book_id": "",
+        "title":  "",
+        "author": "",
+        "ASC": "",
+        "DESC": ""
+        }
+
     member_page = False
+    sorting_option = "book_id"
+    sorting_order = "ASC"
 
     if 'username' in session:
         login_username = session['username']
@@ -33,21 +53,54 @@ def books():
         member_page = True
         user_role = con.get_role_for_user(session['username'])['role']
         titles = utl.get_list_of_titles_rented_per_member(session)
+    
+        new_sort_options = {
+            "book_id": "",
+            "title":  "",
+            "author": "",
+            "ASC": "",
+            "DESC": ""
+            }
+
+        if request.method == "POST":
+            if 'sort' in request.form:
+                sorting_option = request.form['sort']
+            if 'order' in request.form:
+                sorting_order = request.form['order']
+            for sort_option in sort_options:
+                for elem in request.form:
+                    if sort_option == request.form[elem]:
+                        new_sort_options[sort_option] = "selected"
+                        break
+                    else:
+                        new_sort_options[sort_option] = ""
+
+        all_books = con.sort_books_by_(sorting_option, sorting_order)
 
         return render_template('books.html',
-                               all_books=all_books,
-                               books_headings=BOOKS_HEADINGS,
-                               member_to_login=member_to_login,
-                               member_page=member_page,
-                               member_full_name=member_full_name,
-                               titles=titles,
-                               login_username=login_username,
-                               user_role=user_role)
+                                all_books=all_books,
+                                books_headings=BOOKS_HEADINGS,
+                                member_to_login=member_to_login,
+                                member_page=member_page,
+                                member_full_name=member_full_name,
+                                titles=titles,
+                                login_username=login_username,
+                                user_role=user_role,
+                                new_sort_options=new_sort_options)
+    
+    if request.method == "POST":
+        sorting_option = request.form['sort']
+        sorting_order = request.form['order']
+        sort_options[sorting_option] = "select"
+        sort_options[sorting_order] = "select"
+
+    all_books = con.sort_books_by_(sorting_option, sorting_order)
 
     return render_template('books.html',
                            all_books=all_books,
                            books_headings=BOOKS_HEADINGS,
-                           member_page=member_page)
+                           member_page=member_page,
+                           new_sort_options=new_sort_options)
 
 
 @app.route('/books/<book_id>/info')
@@ -115,6 +168,14 @@ def login():
     member_page = False
     is_member = False
 
+    new_sort_options = {
+        "book_id": "",
+        "title":  "",
+        "author": "",
+        "ASC": "",
+        "DESC": ""
+        }
+
     if request.method == 'POST':
         member_to_login = con.check_registered_user(request.form['username'])
 
@@ -132,7 +193,8 @@ def login():
                                     all_books=all_books,
                                     member_page=member_page,
                                     member_full_name=member_full_name,
-                                    user_role=user_role)
+                                    user_role=user_role,
+                                    new_sort_options=new_sort_options)
 
 
             else:
